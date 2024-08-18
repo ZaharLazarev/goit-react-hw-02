@@ -1,0 +1,14 @@
+.OptionsButton{
+  border: 1px solid black;
+
+}
+.OptionsButton:hover{
+  background-color: green;
+}
+.OptionsButtonContainer{
+  display: flex;
+  gap: 10px;
+}
+.OptionsButtonReset:hover{
+  background-color: red;
+}
