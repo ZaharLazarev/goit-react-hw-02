@@ -5,16 +5,20 @@ import Options from '../Options/Options'
 import Feedback from '../Feedback/Feedback'
 import Description from '../Description/Description'
 import Notification from '../Notification/Notification'
-const getInitialIndex = () => {
+const getReviewsItem = () => {
   const savedReviews = window.localStorage.getItem("reviews");
-  return savedReviews !== null ? JSON.parse(savedReviews) : 0;
+  return savedReviews !== null ? JSON.parse(savedReviews) : {
+    good: 0,
+    neutral: 0,
+    bad: 0
+  };
 };
 function App() {
-  const [reviews, setCount] = useState(getInitialIndex)
+  const [reviews, setCount] = useState(getReviewsItem)
   useEffect(()=>{
     window.localStorage.setItem("reviews", JSON.stringify(reviews));
   },[reviews]);
-  const Update = (value)=>{
+  const updateFeedback = (value)=>{
     setCount({
       ...reviews,
       [value]:reviews[value]+1
@@ -34,8 +38,8 @@ function App() {
   return(
    <div className={clsx(css.MainContainer)}>
     <Description/>
-    <Options Update={Update} getInitialIndex={getInitialIndex} totalFeedback={totalFeedback} ResetFunction={ResetFunction}/>
-    {totalFeedback>0?<Feedback setCount={setCount} totalFeedback={totalFeedback} reviews={reviews} percent={percent}/>:<Notification/>}
+    <Options updateFeedback={updateFeedback} totalFeedback={totalFeedback} ResetFunction={ResetFunction}/>
+    {totalFeedback>0?<Feedback totalFeedback={totalFeedback} reviews={reviews} percent={percent}/>:<Notification/>}
   </div> 
   )
 }
